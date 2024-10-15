@@ -224,7 +224,7 @@ export default function Chat() {
                                 {msg.text}
                             </span>
                             <Typography sx={{ fontSize: '0.75rem', color: 'gray' }}>
-                                {new Date(msg.id).toLocaleString()}
+                                {new Date(msg.id).toLocaleTimeString()}
                             </Typography>
                         </Typography>
                     ))}
