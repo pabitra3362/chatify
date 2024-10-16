@@ -233,6 +233,10 @@ export default function Chat() {
                 </Box>
                 <Box
                     component="form"
+                    onSubmit={(e)=>{
+                        e.preventDefault()
+                        handleSend()
+                    }}
                     sx={{
                         position: 'fixed',
                         bottom: '10px', // Fixed 10px from the bottom
@@ -252,7 +256,6 @@ export default function Chat() {
                     <TextField
                         id="outlined-multiline-flexible"
                         label={username}
-                        multiline
                         maxRows={10}
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}

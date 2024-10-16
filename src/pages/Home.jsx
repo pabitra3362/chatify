@@ -3,14 +3,14 @@ import { useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../features/chatSlice';
-import Grid from '@mui/material/Grid';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
     const [username, setUsername] = useState("");
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const isUsernameValid = username.trim().length > 0;
 
     const handleUsernameChange = (e) => {
@@ -20,6 +20,7 @@ const Home = () => {
     const handleBtnClick = () => {
         if (isUsernameValid) {
             dispatch(setUser(username));
+            navigate('/chat');
         }
     };
 
@@ -36,65 +37,62 @@ const Home = () => {
                 p: 2,
             }}
         >
-            <Box sx={{ mb: 2 }}>
-                <h1 style={{ textAlign: 'center', fontSize: '36px', margin: 0 }}>
+            <Box sx={{ mb: 2, textAlign: 'center' }}>
+                <h1 style={{ fontSize: '36px', margin: 0 }}>
                     Welcome to Chatify
                 </h1>
             </Box>
-            <Box sx={{ mb: 3 }}>
-                <h2 style={{ fontSize: '40px', textAlign: 'center', margin: 0 }}>
+            <Box sx={{ mb: 3, textAlign: 'center' }}>
+                <h2 style={{ fontSize: '40px', margin: 0 }}>
                     Wanna chat with someone?
                 </h2>
             </Box>
-            <Grid 
-                container 
-                spacing={2} 
-                justifyContent="center" 
-                alignItems="center"
-                sx={{ width: '100%', maxWidth: '600px' }}
+            <Box 
+                sx={{ 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    alignItems: 'center', 
+                    width: '100%', 
+                    maxWidth: '600px',
+                }}
             >
-                <Grid item xs={12}>
-                    <TextField
-                        label="Enter an Username"
-                        placeholder="Username"
-                        onChange={handleUsernameChange}
-                        value={username}
-                        fullWidth
-                        sx={{
-                            '& .MuiOutlinedInput-root': {
-                                '& fieldset': {
-                                    border: '2px solid white',
-                                },
-                                '&:hover fieldset': {
-                                    border: '2px solid lightgrey',
-                                },
-                                '&.Mui-focused fieldset': {
-                                    border: '2px solid blue',
-                                },
+                <TextField
+                    label="Enter an Username"
+                    placeholder="Username"
+                    onChange={handleUsernameChange}
+                    value={username}
+                    fullWidth
+                    sx={{
+                        mb: 2,
+                        '& .MuiOutlinedInput-root': {
+                            '& fieldset': {
+                                border: '2px solid white',
                             },
-                            '& input': {
-                                color: 'white',
+                            '&:hover fieldset': {
+                                border: '2px solid lightgrey',
                             },
-                            '& .MuiInputBase-input::placeholder': {
-                                color: 'lightgrey',
+                            '&.Mui-focused fieldset': {
+                                border: '2px solid blue',
                             },
-                        }}
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <Link to='/chat'>
-                        <Button 
-                            variant="outlined" 
-                            size='large' 
-                            onClick={handleBtnClick} 
-                            disabled={!isUsernameValid}
-                            fullWidth
-                        >
-                            Let's go
-                        </Button>
-                    </Link>
-                </Grid>
-            </Grid>
+                        },
+                        '& input': {
+                            color: 'white',
+                        },
+                        '& .MuiInputBase-input::placeholder': {
+                            color: 'lightgrey',
+                        },
+                    }}
+                />
+                <Button 
+                    variant="outlined" 
+                    size='large' 
+                    onClick={handleBtnClick} 
+                    disabled={!isUsernameValid}
+                    fullWidth
+                >
+                    Let's go
+                </Button>
+            </Box>
         </Box>
     );
 };
