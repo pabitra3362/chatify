@@ -32,29 +32,39 @@ const Chat = () => {
   };
 
   useEffect(() => {
-    const websocket = new WebSocket('ws://localhost:3000');
+    if(!user){
+      navigate('/')
+    }
+    const websocket = new WebSocket('wss://nice-maple-cry.glitch.me/'); // Updated to use 'wss'
     setWs(websocket);
-
+  
     websocket.onopen = () => {
       console.log('Connected');
       setLoading(false);
     };
-
+  
     websocket.onmessage = (event) => {
       const newMessages = JSON.parse(event.data);
       if (Array.isArray(newMessages)) {
-        // If it's an array, it means we're receiving all previous messages
         setMessages(newMessages);
       } else {
-        // If it's a single message, append it to the current messages
         setMessages(prevMessages => [...prevMessages, newMessages]);
       }
     };
-
+  
+    websocket.onerror = (error) => {
+      console.error('WebSocket error:', error); // Handle errors
+    };
+  
+    websocket.onclose = () => {
+      console.log('WebSocket connection closed');
+    };
+  
     return () => {
       websocket.close();
     };
   }, []);
+  
 
   useEffect(() => {
     const current = msgRef.current
@@ -87,7 +97,7 @@ const Chat = () => {
           <div className='w-[90%] mx-auto text-white border border-white h-[70vh] overflow-y-auto p-4'>
             {messages.length > 0 ? messages.map((item, index) => (
               <div className='flex  justify-between items-center' key={index}>
-                <div className='flex flex-wrap w-[70%]'>
+                <div className='flex flex-wrap gap-2 w-[70%]'>
                   <div>{item.username}: </div>
                   <div className='text-wrap'>{item.text}</div>
                 </div>
