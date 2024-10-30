@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button';
-import { useSelector, useDispatch } from 'react-redux'
-import { setUser } from '../features/user/userSlice';
 import { useNavigate } from 'react-router-dom'
 
 
 const Home = () => {
     const [username, setUsername] = useState("")
-    const dispatch = useDispatch()
     const navigate = useNavigate()
     const user = useSelector(state => state.user.user)
 
     const handleClick = () => {
-        dispatch(setUser(username))
         localStorage.setItem('username',username)
         navigate('/chat')
     }

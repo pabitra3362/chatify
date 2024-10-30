@@ -2,24 +2,18 @@ import React, { useEffect, useState, useRef } from 'react';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { useDispatch, useSelector } from 'react-redux';
-import { logOut } from '../features/user/userSlice';
 import { useNavigate } from 'react-router-dom';
 
 const Chat = () => {
-  // const user = useSelector(state => state.user.user);
   const user=localStorage.getItem('username')
   const [msg, setMsg] = useState('');
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [ws, setWs] = useState(null); // Manage WebSocket state
   const msgRef = useRef(null)
-
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    dispatch(logOut());
     localStorage.removeItem('username')
     navigate('/');
   };
