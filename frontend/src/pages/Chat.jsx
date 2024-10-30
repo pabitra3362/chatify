@@ -7,7 +7,8 @@ import { logOut } from '../features/user/userSlice';
 import { useNavigate } from 'react-router-dom';
 
 const Chat = () => {
-  const user = useSelector(state => state.user.user);
+  // const user = useSelector(state => state.user.user);
+  const user=localStorage.getItem('username')
   const [msg, setMsg] = useState('');
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -19,6 +20,7 @@ const Chat = () => {
 
   const handleLogout = () => {
     dispatch(logOut());
+    localStorage.removeItem('username')
     navigate('/');
   };
 
@@ -94,7 +96,7 @@ const Chat = () => {
               </Button>
             </div>
           </div>
-          <div className='w-[90%] mx-auto text-white border border-white h-[70vh] overflow-y-auto p-4'>
+          <div className='w-[90%] mx-auto text-white border border-white h-[68vh] md:h-[79vh] overflow-y-auto p-4'>
             {messages.length > 0 ? messages.map((item, index) => (
               <div className='flex  justify-between items-center' key={index}>
                 <div className='flex flex-wrap gap-2 w-[70%]'>
@@ -106,7 +108,7 @@ const Chat = () => {
             )) : <div>No messages yet.</div>}
             <div ref={msgRef}></div>
           </div>
-          <div className="input absolute w-full bottom-0 p-4 md:flex md:justify-center md:gap-2">
+          <div className="input w-full p-4 md:flex md:justify-center md:gap-2">
             <FloatingLabel
               controlId="floatingInput"
               label={user || "Anonymous"}
@@ -118,12 +120,14 @@ const Chat = () => {
                 placeholder="Enter Message"
                 value={msg}
                 onChange={(e) => setMsg(e.target.value)}
+                
               />
             </FloatingLabel>
             <Button
               className='h-12 w-full md:w-28 md:h-14'
               variant="outline-info"
               onClick={handleSend}
+              disabled={msg?false:true}
             >
               Send
             </Button>

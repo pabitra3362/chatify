@@ -1,8 +1,9 @@
 import express from 'express';
 import { WebSocketServer } from 'ws';
+import conf from './config.js'
 
 const app = express();
-const port = 3000;
+const port = conf.port
 const messages = []; // Store messages here
 
 const server = app.listen(port, () => {
